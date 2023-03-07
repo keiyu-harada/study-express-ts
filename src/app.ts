@@ -36,7 +36,7 @@ const connection = async () => {
   return await mysql.createConnection(config.db);
 };
 
-function debug_time(httpMethod: string) {
+function debugTime(httpMethod: string) {
   const time = new Date();
   const now = `${httpMethod}: ${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
   console.log(now)
@@ -69,7 +69,7 @@ app.get("/books", (req: express.Request, res: express.Response) => {
       connection.query("SELECT * FROM books;",
         function (err, results) {
           connection.end();
-          debug_time("GET");
+          debugTime("GET");
           res.send(results);
         });
     });
@@ -82,7 +82,7 @@ app.get("/books/:bookId", (req: express.Request, res: express.Response) => {
         [req.params.bookId],
         function (err, results) {
         connection.end();
-        debug_time("GET");
+        debugTime("GET");
         res.send(results);
       });
     });
@@ -102,7 +102,7 @@ app.post("/books/add", (req: express.Request, res: express.Response) => {
         [uid, name, author, published_date, description],
         function (err){
         connection.end();
-        debug_time("POST");
+        debugTime("POST");
         if(err === null){
           res.status(200).send();
         } else {
@@ -119,7 +119,7 @@ app.delete("/books/del/:bookId", (req: express.Request, res: express.Response) =
         [req.params.id],
         function (err){
         connection.end();
-        debug_time("DELETE");
+        debugTime("DELETE");
         if(err === null){
           res.status(200).send();
         } else {
@@ -141,7 +141,7 @@ app.put("/books/update/:bookId", (req: express.Request, res: express.Response) =
         [req.body],
         function (err) {
           connection.end();
-          debug_time("PUT");
+          debugTime("PUT");
           if(err === null){
             res.status(200).send();
           } else {
