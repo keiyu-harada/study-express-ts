@@ -2,6 +2,13 @@
 
 ## 環境構築
 
+### volta（Node.js）
+```bash
+$ curl https://get.volta.sh | bash
+
+$ volta install node
+```
+
 ### npm
 ```bash
 $ npm install typescript
@@ -66,3 +73,8 @@ DB_DATABASE=""
 $ export $(cat .env | xargs)
 ```
 
+## 実行
+
+```bash
+$ npm start
+```
