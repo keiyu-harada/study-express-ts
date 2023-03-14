@@ -116,7 +116,7 @@ app.delete("/books/del/:bookId", (req: express.Request, res: express.Response) =
   connection()
     .then((connection: Connection) => {
       connection.query("DELETE FROM books WHERE id = ?;",
-        [req.params.id],
+        [req.params.bookId],
         function (err){
         connection.end();
         debugTime("DELETE");
