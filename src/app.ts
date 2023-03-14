@@ -36,9 +36,9 @@ const connection = async () => {
   return await mysql.createConnection(config.db);
 };
 
-function debugTime(httpMethod: string) {
+function debugTime(httpMethod: string, methodName: string) {
   const time = new Date();
-  const now = `${httpMethod}: ${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
+  const now = `${methodName}/${httpMethod}: ${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}:${time.getMilliseconds()}`;
   console.log(now)
 }
 
@@ -69,7 +69,7 @@ app.get("/books", (req: express.Request, res: express.Response) => {
       connection.query("SELECT * FROM books;",
         function (err, results) {
           connection.end();
-          debugTime("GET");
+          debugTime("GET", "getBooks");
           res.send(results);
         });
     });
@@ -82,7 +82,7 @@ app.get("/books/:bookId", (req: express.Request, res: express.Response) => {
         [req.params.bookId],
         function (err, results) {
         connection.end();
-        debugTime("GET");
+        debugTime("GET", "getBook");
         res.send(results);
       });
     });
@@ -102,7 +102,7 @@ app.post("/books/add", (req: express.Request, res: express.Response) => {
         [uid, name, author, published_date, description],
         function (err){
         connection.end();
-        debugTime("POST");
+        debugTime("POST", "addBook");
         if(err === null){
           res.status(200).send();
         } else {
@@ -119,7 +119,7 @@ app.delete("/books/del/:bookId", (req: express.Request, res: express.Response) =
         [req.params.bookId],
         function (err){
         connection.end();
-        debugTime("DELETE");
+        debugTime("DELETE", "deleteBooks");
         if(err === null){
           res.status(200).send();
         } else {
@@ -141,7 +141,7 @@ app.put("/books/update/:bookId", (req: express.Request, res: express.Response) =
         [req.body],
         function (err) {
           connection.end();
-          debugTime("PUT");
+          debugTime("PUT", "updateBook");
           if(err === null){
             res.status(200).send();
           } else {
@@ -155,4 +155,5 @@ app.put("/books/update/:bookId", (req: express.Request, res: express.Response) =
   TODO:
     - エラー処理
     - トランザクション
+      - 一旦1つのクエリしか叩かないから資料なので気にしないでおく
 */
