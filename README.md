@@ -6,8 +6,12 @@
 ```bash
 $ curl https://get.volta.sh | bash
 
-$ volta install node
+$ volta install node@19
+
+$ node -v
+v19.8.1
 ```
+
 
 ### npm
 ```bash
@@ -61,7 +65,7 @@ CREATE TABLE `books` (
 PORT=
 
 # DB
-DB_HOST=""
+DB_HOST="" #localhostだと動かないので、127.0.0.1
 DB_PORT=3306
 DB_USER=""
 DB_PASSWORD=""

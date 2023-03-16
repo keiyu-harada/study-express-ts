@@ -1,9 +1,9 @@
-import express, {query} from "express";
-import * as mysql from "mysql2";
+import express from "express";
 import config from "./config";
 import {Connection} from "mysql2";
 import * as crypto from "crypto";
 
+const mysql = require('mysql2');
 const app: express.Express = express();
 
 const cors = require('cors');
@@ -68,7 +68,6 @@ app.get("/books", (req: express.Request, res: express.Response) => {
     .then((connection: Connection) => {
       connection.query("SELECT * FROM books;",
         function (err, results) {
-          connection.end();
           debugTime("GET", "getBooks");
           res.send(results);
         });
@@ -81,7 +80,6 @@ app.get("/books/:bookId", (req: express.Request, res: express.Response) => {
       connection.query("SELECT * FROM books WHERE id = ?;",
         [req.params.bookId],
         function (err, results) {
-        connection.end();
         debugTime("GET", "getBook");
         res.send(results);
       });
@@ -101,7 +99,6 @@ app.post("/books/add", (req: express.Request, res: express.Response) => {
       connection.query("INSERT INTO books(id, name, author, published_date, description) VALUES (?, ?, ?, ?, ?)",
         [uid, name, author, published_date, description],
         function (err){
-        connection.end();
         debugTime("POST", "addBook");
         if(err === null){
           res.status(200).send();
@@ -118,7 +115,6 @@ app.delete("/books/del/:bookId", (req: express.Request, res: express.Response) =
       connection.query("DELETE FROM books WHERE id = ?;",
         [req.params.bookId],
         function (err){
-        connection.end();
         debugTime("DELETE", "deleteBooks");
         if(err === null){
           res.status(200).send();
@@ -140,7 +136,6 @@ app.put("/books/update/:bookId", (req: express.Request, res: express.Response) =
       connection.query(`UPDATE books SET ? WHERE id = "${req.params.bookId}";`,
         [req.body],
         function (err) {
-          connection.end();
           debugTime("PUT", "updateBook");
           if(err === null){
             res.status(200).send();
